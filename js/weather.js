@@ -8,50 +8,42 @@ $(document).ready(function() {
     https://api.darksky.net/forecast/1f9a5eedd4211ec9f965223be81f2020/40.014257,-105.126537
     https://codepen.io/benpetersen/pen/goNYNZ
 */
-  var location = getLocation();
-  var weather = getWeather(location.longitude, location.latitude);
-  if(weather != null){
-    setWeather(weather);
-  }
+  updateCoordinate(function(location){
+    updateWeather(location.longitude, location.latitude, function(json){
+      setWeather(json);
+    });
+  });
+
 });
 
-function getLocation(){
-  var location = {
-    longitude: 0,
-    latitude: 0
-  }
+function updateCoordinate(callback) {
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        var location = {
+          latitude: position.coords.latitude.toString(),
+          longitude: position.coords.longitude.toString()
+        }
 
-  if (!navigator.geolocation){
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(success, error);
-  
-  function success(position) {
-    location.latitude  = position.coords.latitude;
-    location.longitude = position.coords.longitude;
-    return location;
-  }
-
-  function error() {
-    //error message
-    return;
-  }
-
-  
+        // and here you call the callback with whatever
+        // data you need to return as a parameter.
+        callback(location);
+      }
+    )
 }
-function getWeather(longitude, latitude){
-  var url = "https://api.darksky.net/forecast/1f9a5eedd4211ec9f965223be81f2020/" + longitude + "," + latitude;
+function updateWeather(longitude, latitude, callback){
+  var url = "https://api.darksky.net/forecast/1f9a5eedd4211ec9f965223be81f2020/" + latitude + "," + longitude;
   $.ajax({
     format: "jsonp",
     dataType: "jsonp",
     url: url,
     success: function(json){
-      return json;
+      callback(json);
     }
   }).error(function(jqXHR, textStatus) {
     alert("errror: " + JSON.stringify(jqXHR));
   });
 }
+
 function setWeather(json){
 
 }
