@@ -8,6 +8,13 @@ $(document).ready(function() {
     https://api.darksky.net/forecast/1f9a5eedd4211ec9f965223be81f2020/40.014257,-105.126537
     https://codepen.io/benpetersen/pen/goNYNZ
 */
+  $('#getWeather').click(function(){  
+    var latitude = $('#latitude').val();
+    var longitude = $('#longitude').val();
+    updateWeather(longitude, latitude, function(json){
+      setWeather(json);
+    });
+  });
   updateCoordinate(function(location){
     updateWeather(location.longitude, location.latitude, function(json){
       setWeather(json);
@@ -23,7 +30,8 @@ function updateCoordinate(callback) {
           latitude: position.coords.latitude.toString(),
           longitude: position.coords.longitude.toString()
         }
-
+        $('#longitude').val(location.longitude);
+        $('#latitude').val(location.latitude);
         // and here you call the callback with whatever
         // data you need to return as a parameter.
         callback(location);
@@ -35,7 +43,8 @@ function updateCoordinate(callback) {
       timeout           : 27000
     }
     function error(err){
-      alert(err)
+      $("#errors").val(err);
+      //alert(err)
     }
 }
 function updateWeather(longitude, latitude, callback){
@@ -46,9 +55,11 @@ function updateWeather(longitude, latitude, callback){
     url: url,
     success: function(json){
       callback(json);
+    },error: function(err){
+      $("#errors").val(err);
     }
   }).error(function(jqXHR, textStatus) {
-    alert("errror: " + JSON.stringify(jqXHR));
+    $("#errors").val(jqXHR + " " + textStatus);
   });
 }
 
