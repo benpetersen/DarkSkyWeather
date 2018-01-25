@@ -27,8 +27,16 @@ function updateCoordinate(callback) {
         // and here you call the callback with whatever
         // data you need to return as a parameter.
         callback(location);
-      }
+      },error,options
     )
+    var options = {
+      enableHighAccuracy: true, 
+      maximumAge        : 30000, 
+      timeout           : 27000
+    }
+    function error(err){
+      alert(err)
+    }
 }
 function updateWeather(longitude, latitude, callback){
   var url = "https://api.darksky.net/forecast/1f9a5eedd4211ec9f965223be81f2020/" + latitude + "," + longitude;
@@ -45,6 +53,9 @@ function updateWeather(longitude, latitude, callback){
 }
 
 function setWeather(json){
-
+  //console.log(JSON.stringify(json, null, 4));
+  $("#todaysLow").text("Todays Low: " + json.daily.data[0].temperatureMin)
+  $('#todaysHigh').text("Todays High: " + json.daily.data[0].temperatureMax);
+  $('#currentTemp').text("Currently " + json.currently.summary + " with a temp of " + json.currently.temperature);
 }
   
