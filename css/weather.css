@@ -1,0 +1,40 @@
+h2 {
+  font-size: 30px;
+}
+
+@media screen and (max-width: 700px) {
+  h2 {
+    font-size: 20px;
+  }
+}
+
+h3 {
+  margin: 6px;
+  font-size: 20px;
+}
+
+@media screen and (max-width:700px) {
+  h3 {
+    font-size: 15px;
+  }
+}
+
+.dayForcast{
+    width: 10%;
+    float: left;
+}
+.dayForcast img{
+    height:11%;
+}
+.dayForcast .low{
+    color: #B8B8B8;
+    margin: 0 0 0px 30px;
+}
+.dayForcast .high{
+    color: #606060;
+    margin: 0 0 0px 30px;
+}
+.dayForcast .day{
+    color: #B8B8B8;
+    margin: 0 0 0px 30px;
+}

@@ -7,22 +7,54 @@
     <input id="latitude" type="text" value="40.014257" placeholder="Latitude" />
     <input id="longitude" type="text" value="-105.126537" placeholder="Longitude" />
     <input type="button" id="getWeather" value="Get Weather" /> 
-    <div>
-        Current Weather in Fahrenheit
+    <div class="row">
+        <h2>
+            Weather
+        </h2>
     </div>
     <div>
-        Location: --
+        <h3 id="currentTemp">
+            Currently: --
+        </h3>
+        <p id="currentSummary">
+        </p>
     </div>
-    <div id="currentTemp">
-        Currently: --
+    <br/>
+    <div>
+        <!-- Show 5 day forcast. Day of Week, High, Low and Description icon -->
+        <div class="dayForcast">
+            <div id="day0Description" class="day"></div>
+            <img id="day0Icon" src=""/>
+            <div id="day0High" class="high"></div>
+            <div id="day0Low" class="low"></div>
+        </div>
+        <div class="dayForcast">
+            <div id="day1Description" class="day"></div>
+            <img id="day1Icon" src=""/>
+            <div id="day1High" class="high"></div>
+            <div id="day1Low" class="low"></div>
+        </div>
+        <div class="dayForcast">
+            <div id="day2Description" class="day"></div>
+            <img id="day2Icon" src=""/>
+            <div id="day2High" class="high"></div>
+            <div id="day2Low" class="low"></div>
+        </div>
+        <div class="dayForcast">
+            <div id="day3Description" class="day"></div>
+            <img id="day3Icon" src=""/>
+            <div id="day3High" class="high"></div>
+            <div id="day3Low" class="low"></div>
+        </div>
+        <div class="dayForcast">
+            <div id="day4Description" class="day"></div>
+            <img id="day4Icon" src=""/>
+            <div id="day4High" class="high"></div>
+            <div id="day4Low" class="low"></div>
+        </div>
     </div>
-    <div id="todaysHigh">
-        High: --
-    </div>
-    <div id="todaysLow">
-        Low: --
-    </div>
-    <div id="errors">
+    <div clear="both"></div>
+    <div id="errors" style="color:red">
     </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js" ></script>
     <script type="text/javascript" src="js/weather.js"></script>

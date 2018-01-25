@@ -11,9 +11,13 @@ $(document).ready(function() {
   $('#getWeather').click(function(){  
     var latitude = $('#latitude').val();
     var longitude = $('#longitude').val();
+    if(longitude.length > 4 && latitude.length > 4){
     updateWeather(longitude, latitude, function(json){
       setWeather(json);
     });
+    }else{
+      $("#errors").text("Longitude and Latitude are not valid");
+    }
   });
   updateCoordinate(function(location){
     updateWeather(location.longitude, location.latitude, function(json){
@@ -32,8 +36,7 @@ function updateCoordinate(callback) {
         }
         $('#longitude').val(location.longitude);
         $('#latitude').val(location.latitude);
-        // and here you call the callback with whatever
-        // data you need to return as a parameter.
+        
         callback(location);
       },error,options
     )
@@ -43,8 +46,7 @@ function updateCoordinate(callback) {
       timeout           : 27000
     }
     function error(err){
-      $("#errors").val(err);
-      //alert(err)
+      $("#errors").text(err);
     }
 }
 function updateWeather(longitude, latitude, callback){
@@ -59,14 +61,32 @@ function updateWeather(longitude, latitude, callback){
       $("#errors").val(err);
     }
   }).error(function(jqXHR, textStatus) {
-    $("#errors").val(jqXHR + " " + textStatus);
+    $("#errors").text(jqXHR + " " + textStatus);
   });
 }
 
 function setWeather(json){
   //console.log(JSON.stringify(json, null, 4));
-  $("#todaysLow").text("Todays Low: " + json.daily.data[0].temperatureMin)
-  $('#todaysHigh').text("Todays High: " + json.daily.data[0].temperatureMax);
-  $('#currentTemp').text("Currently " + json.currently.summary + " with a temp of " + json.currently.temperature);
+  var days = ['Mon','Tues','Wed','Thurs','Fri','Sat','Sun'];
+  $('#currentTemp').text("Current: " + json.currently.temperature);
+  $('#currentSummary').text(json.currently.summary);
+  for(var i = 0; i < 5; i++){
+    var item = json.daily.data[i];
+    //get numerical day of week from json, convert to day of week like "Thursday"
+    var dayOfWeek = days[new Date(item.time*1000).getDay()];
+    var iconSrc = "img/" + item.icon + ".png";
+
+    //build jQuery id's (this is a really hacky way of doing components)
+    var iconId = "#day" + i + "Icon"
+    var lowId = "#day" + i + "Low";
+    var highId = "#day" + i + "High";
+    var descriptionId = "#day" + i + "Description";
+    
+    $(iconId).attr('src', iconSrc);
+    $(descriptionId).text(dayOfWeek);
+    $(lowId).text(Math.ceil(item.temperatureMin))
+    $(highId).text(Math.ceil(item.temperatureMax));
+  }
+  
 }
   
